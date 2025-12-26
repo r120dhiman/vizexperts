@@ -5,7 +5,7 @@ import ChunkGrid from './components/ChunkGrid';
 export default function App() {
   const [chunks, setChunks] = useState([]);
   const [status, setStatus] = useState('idle');
-  const [error, setError] = useState(null); // ✅ add error state
+  const [error, setError] = useState(null); 
 
   return (
     <div className="app">
@@ -15,7 +15,7 @@ export default function App() {
         chunks={chunks}
         setChunks={setChunks}
         setStatus={setStatus}
-        setError={setError}   // ✅ pass it here
+        setError={setError}   
       />
 
       {chunks.length > 0 && (
@@ -25,7 +25,7 @@ export default function App() {
         </>
       )}
 
-      {error && <div className="error-box">❌ {error}</div>}  {/* display error */}
+      {error && <div className="error-box"> {error}</div>}  
 
       <p className={`status ${status}`}>{status.toUpperCase()}</p>
     </div>

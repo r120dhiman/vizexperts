@@ -6,9 +6,6 @@ const yauzl = require('yauzl');
 const { getDB } = require('../config/db');
 const { UPLOAD_DIR, CHUNK_SIZE } = require('../utils/constants');
 
-/**
- * 1. HANDSHAKE
- */
 exports.handshake = async (req, res) => {
   try {
     const db = getDB();
@@ -43,9 +40,7 @@ exports.handshake = async (req, res) => {
   }
 };
 
-/**
- * 2. CHUNK UPLOAD
- */
+
 exports.uploadChunk = async (req, res) => {
   try {
     const db = getDB();
@@ -89,9 +84,7 @@ exports.uploadChunk = async (req, res) => {
   }
 };
 
-/**
- * 3. FINALIZE
- */
+
 exports.finalize = async (req, res) => {
   const { uploadId } = req.body;
   const db = getDB();

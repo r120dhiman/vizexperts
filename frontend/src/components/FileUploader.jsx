@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import { API_BASE } from '../api';
 const CHUNK_SIZE = 5 * 1024 * 1024;
 
 export default function FileUploader({ chunks, setChunks, setStatus, setError }) {
@@ -15,10 +15,9 @@ export default function FileUploader({ chunks, setChunks, setStatus, setError })
 
     setStatus('uploading');
 
-    // 1️⃣ HANDSHAKE
     let handshakeData;
     try {
-      const handshakeRes = await axios.post('http://localhost:3001/upload/handshake', {
+      const handshakeRes = await axios.post(`${API_BASE}/handshake`, {
         filename: file.name,
         size: file.size
       });
@@ -30,12 +29,10 @@ export default function FileUploader({ chunks, setChunks, setStatus, setError })
     }
     const { uploadId, uploadedChunks, totalChunks } = handshakeData;
 
-    // initialize chunk UI
     const chunkStates = Array(totalChunks).fill('idle');
     uploadedChunks.forEach(i => (chunkStates[i] = 'success'));
     setChunks([...chunkStates]);
 
-    // 2️⃣ UPLOAD CHUNKS
     for (let i = 0; i < totalChunks; i++) {
       if (uploadedChunks.includes(i)) continue;
 
@@ -52,7 +49,7 @@ export default function FileUploader({ chunks, setChunks, setStatus, setError })
       form.append('index', i);
 
       try {
-        await axios.post('http://localhost:3001/upload/chunk', form, {
+        await axios.post(`${API_BASE}/chunk`, form, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       } catch (err) {
@@ -67,10 +64,9 @@ export default function FileUploader({ chunks, setChunks, setStatus, setError })
       setChunks([...chunkStates]);
     }
 
-    // 3️⃣ FINALIZE
     let finalizeData;
     try {
-      const finalizeRes = await axios.post('http://localhost:3001/upload/finalize', { uploadId });
+      const finalizeRes = await axios.post(`${API_BASE}/finalize`, { uploadId });
       finalizeData = finalizeRes.data;
     } catch (err) {
       finalizeData = err.response?.data || {};

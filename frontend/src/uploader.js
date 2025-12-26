@@ -6,7 +6,7 @@ const MAX_CONCURRENT = 3;
 export async function uploadFile(file, onProgress, onChunkUpdate) {
   const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
 
-  // 🔹 Handshake
+
   const handshakeRes = await fetch(`${API_BASE}/handshake`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
