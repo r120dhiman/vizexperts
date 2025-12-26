@@ -1,0 +1,15 @@
+services:
+  backend:
+    build: .
+    container_name: chunked-uploader-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=host.docker.internal
+      - DB_USER=RohitDhiman
+      - DB_NAME=uploads
+      - DB_PORT=5432
+    volumes:
+      - ./uploads:/app/uploads
+    restart: unless-stopped

@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: chunked-uploader-frontend
+    image: chunked-uploader-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_BASE=http://localhost:3001
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
